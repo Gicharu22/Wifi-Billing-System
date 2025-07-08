@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Settings — Lavish WiFi</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <!-- Sidebar (same as admin.html) -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="material-icons">wifi</span>
+      <h2>Lavish Admin</h2>
+    </div>
+    <nav class="nav-menu">
+      <a href="{{ url_for('admin_dashboard') }}">
+        <span class="material-icons">dashboard</span> Dashboard
+      </a>
+      <a href="{{ url_for('admin_packages') }}">
+        <span class="material-icons">view_module</span> Packages
+      </a>
+      <a href="{{ url_for('admin_vouchers') }}">
+        <span class="material-icons">confirmation_number</span> Vouchers
+      </a>
+      <a href="{{ url_for('admin_settings') }}" class="active">
+        <span class="material-icons">settings</span> Settings
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1>Settings</h1>
+
+    <form method="post" class="settings-form">
+      <!-- Payment Settings -->
+      <section>
+        <h2>Payment Settings</h2>
+        <div class="form-group">
+          <label for="payment_gateway">Payment Gateway</label>
+          <select id="payment_gateway" name="payment_gateway">
+            <option value="mpesa" {% if settings.payment_gateway=='mpesa' %}selected{% endif %}>M-Pesa</option>
+            <option value="stripe" {% if settings.payment_gateway=='stripe' %}selected{% endif %}>Stripe</option>
+            <option value="paypal" {% if settings.payment_gateway=='paypal' %}selected{% endif %}>PayPal</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="api_key">API Key</label>
+          <input type="text" id="api_key" name="api_key" value="{{ settings.api_key }}">
+        </div>
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <input type="text" id="currency" name="currency" value="{{ settings.currency }}" placeholder="e.g. KES">
+        </div>
+      </section>
+
+      <!-- Save / Cancel Buttons -->
+      <div class="button-group">
+        <button type="submit" class="btn-save">Save Changes</button>
+        <button type="button" onclick="window.location='{{ url_for('admin_dashboard') }}';" class="btn-cancel">Cancel</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

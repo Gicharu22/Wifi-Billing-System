@@ -1,0 +1,129 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard — Lavish WiFi</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="material-icons">wifi</span>
+      <h2>Lavish Admin</h2>
+    </div>
+    <nav class="nav-menu">
+      <a href="{{ url_for('admin_dashboard') }}" class="{% if section=='dashboard' %}active{% endif %}">
+        <span class="material-icons">dashboard</span> Dashboard
+      </a>
+      <a href="{{ url_for('admin_packages') }}" class="{% if section=='packages' %}active{% endif %}">
+        <span class="material-icons">view_module</span> Packages
+      </a>
+      <a href="{{ url_for('admin_vouchers') }}" class="{% if section=='vouchers' %}active{% endif %}">
+        <span class="material-icons">confirmation_number</span> Vouchers
+      </a>
+      <a href="{{ url_for('admin_settings') }}" class="{% if section=='settings' %}active{% endif %}">
+        <span class="material-icons">settings</span> Settings
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+
+    {% if section=='dashboard' %}
+    <h1>Dashboard</h1>
+    <!-- KPI Cards -->
+    <section class="cards-grid">
+      <div class="card card-small hoverable">
+        <h3>Income Today</h3>
+        <p class="stat stat-blue">{{ stats.income_today }}</p>
+      </div>
+      <div class="card card-small hoverable">
+        <h3>Monthly Income</h3>
+        <p class="stat stat-green">{{ stats.monthly_income }}</p>
+      </div>
+      <div class="card card-small hoverable">
+        <h3>Active Subscriptions</h3>
+        <p class="stat stat-teal">{{ stats.active_subs }}</p>
+      </div>
+      <div class="card card-small hoverable">
+        <h3>All Subscriptions</h3>
+        <p class="stat stat-red">{{ stats.all_subs }}</p>
+      </div>
+    </section>
+
+    <!-- Package Plan Counts -->
+    <section class="cards-grid two-columns">
+      <div class="card hoverable">
+        <h3>Package Plan Counts</h3>
+        <ul class="list-stats">
+          {% for plan, count in stats.plan_counts_hours.items() %}
+            <li>{{ plan }} <strong>{{ count }}</strong></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="card hoverable">
+        <h3>Package Plan Counts</h3>
+        <ul class="list-stats">
+          {% for plan, count in stats.plan_counts_days.items() %}
+            <li>{{ plan }} <strong>{{ count }}</strong></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+
+    {% elif section=='packages' %}
+    <h1>Manage Packages</h1>
+    <div class="packages-section">
+      <!-- Packages Table -->
+      <table class="packages-table">
+        <thead>
+          <tr>
+            <th>Label</th>
+            <th>Price (KSH)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for pkg in packages %}
+          <tr>
+            <td>{{ pkg.label }}</td>
+            <td>{{ pkg.price }}</td>
+            <td class="centered">
+              <label class="switch">
+                <input type="checkbox" name="enabled_{{ pkg.id }}" {% if pkg.enabled|default(true) %}checked{% endif %}>
+                <span class="slider round"></span>
+              </label>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- Add Package Form -->
+      <div class="add-form-container">
+        <h2>Add New Package</h2>
+        <form method="post" class="add-form">
+          <input type="hidden" name="action" value="add">
+          <div class="form-group">
+            <label for="new_label">Package Label</label>
+            <input type="text" id="new_label" name="new_label" required>
+          </div>
+          <div class="form-group">
+            <label for="new_price">Price (KSH)</label>
+            <input type="number" id="new_price" name="new_price" required>
+          </div>
+          <button type="submit" class="btn btn-add">Add Package</button>
+        </form>
+      </div>
+    </div>
+    {% endif %}
+
+  </main>
+
+</body>
+</html>

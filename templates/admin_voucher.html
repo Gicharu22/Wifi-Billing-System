@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Vouchers — Lavish WiFi</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <!-- Sidebar (same as admin.html) -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="material-icons">wifi</span>
+      <h2>Lavish Admin</h2>
+    </div>
+    <nav class="nav-menu">
+      <a href="{{ url_for('admin_dashboard') }}">
+        <span class="material-icons">dashboard</span> Dashboard
+      </a>
+      <a href="{{ url_for('admin_packages') }}">
+        <span class="material-icons">view_module</span> Packages
+      </a>
+      <a href="{{ url_for('admin_vouchers') }}" class="active">
+        <span class="material-icons">confirmation_number</span> Vouchers
+      </a>
+      <a href="{{ url_for('admin_settings') }}">
+        <span class="material-icons">settings</span> Settings
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1>Manage Vouchers</h1>
+
+    <div class="voucher-section">
+      <button id="open-voucher-modal" class="btn btn-add">Generate Voucher</button>
+
+      <table class="voucher-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Expires On</th>
+            <th>Expiry Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in vouchers %}
+          <tr>
+            <td>{{ v.code }}</td>
+            {# split the ISO string “YYYY-MM-DDThh:mm” into date/time #}
+            <td>{{ v.expires_on.split('T')[0] }}</td>
+            <td>{{ v.expires_on.split('T')[1] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Generate Voucher Modal -->
+    <div id="voucher-modal" class="modal">
+      <div class="modal-content">
+        <span id="close-voucher-modal" class="modal-close">&times;</span>
+        <h2>Generate Voucher</h2>
+        <form method="post" class="voucher-form">
+          <input type="hidden" name="action" value="generate">
+
+          <div class="form-group">
+            <label for="voucher_code">Code</label>
+            <input type="text" id="voucher_code" name="voucher_code" required>
+          </div>
+
+          <div class="form-group">
+            <label for="expires_date">Expiration Date</label>
+            <input
+              type="date"
+              id="expires_date"
+              name="expires_date"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label for="expires_time">Expiry Time (24-hour)</label>
+            <input
+              type="time"
+              id="expires_time"
+              name="expires_time"
+              step="60"
+              required>
+          </div>
+
+          <button type="submit" class="btn btn-add">Generate</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById('open-voucher-modal').onclick = () =>
+        document.getElementById('voucher-modal').classList.add('open');
+      document.getElementById('close-voucher-modal').onclick = () =>
+        document.getElementById('voucher-modal').classList.remove('open');
+    </script>
+  </main>
+</body>
+</html>

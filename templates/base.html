@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Admin — Lavish WiFi{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="material-icons">wifi</span>
+      <h2>Lavish Admin</h2>
+    </div>
+    <nav class="nav-menu">
+      <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if section == 'dashboard' else '' }}">
+        <span class="material-icons">dashboard</span> Dashboard
+      </a>
+      <a href="{{ url_for('admin_packages') }}" class="{{ 'active' if section == 'packages' else '' }}">
+        <span class="material-icons">view_module</span> Packages
+      </a>
+      <a href="{{ url_for('admin_vouchers') }}" class="{{ 'active' if section == 'vouchers' else '' }}">
+        <span class="material-icons">confirmation_number</span> Vouchers
+      </a>
+      <a href="{{ url_for('admin_settings') }}" class="{{ 'active' if section == 'settings' else '' }}">
+        <span class="material-icons">settings</span> Settings
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    <!-- Your page-specific content goes here -->
+    {% endblock %}
+  </main>
+
+</body>
+</html>

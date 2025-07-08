@@ -1,0 +1,10 @@
+Flask
+requests
+Flask
+Flask-SQLAlchemy
+Flask-Migrate
+Flask-RESTful
+requests
+celery[redis]
+python-dotenv
+psycopg2-binary

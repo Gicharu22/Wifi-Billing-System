@@ -1,0 +1,565 @@
+/* ======================================
+   Variables & Resets
+   ====================================== */
+:root {
+  --color-bg: #f4f7fa;
+  --color-panel: #edf2f7;
+  --color-card: #ffffff;
+  --color-text: #333333;
+  --color-muted: #6b7280;
+  --color-primary: #2f80ed;
+  --color-success: #27ae60;
+  --color-danger:  #eb5757;
+  --color-sidebar: #1e2732;
+  --color-sidebar-hover: #2d3748;
+    --color-primary:       #007bff;
+  --color-primary-dark:  #0056a3;
+  --gap: 1rem;
+  --radius: 0.5rem;
+  --shadow-light: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ======================================
+   Sidebar
+   ====================================== */
+.sidebar {
+  width: 240px;
+  background: var(--color-sidebar);
+  color: #cbd3dc;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  padding: calc(var(--gap)*1.5);
+  border-bottom: 1px solid var(--color-sidebar-hover);
+}
+.sidebar-brand .material-icons {
+  font-size: 2rem;
+  margin-right: 0.5rem;
+  color: var(--color-success);
+}
+.sidebar-brand h2 {
+  font-size: 1.2rem;
+}
+.nav-menu {
+  margin-top: var(--gap);
+  display: flex;
+  flex-direction: column;
+}
+.nav-menu a {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-menu a .material-icons {
+  margin-right: 1rem;
+  font-size: 1.2rem;
+}
+.nav-menu a:hover,
+.nav-menu a.active {
+  background: var(--color-sidebar-hover);
+  color: #ffffff;
+}
+
+/* ======================================
+   Main Content
+   ====================================== */
+.main-content {
+  flex-grow: 1;
+  background: var(--color-panel);
+  overflow-y: auto;
+  padding: calc(var(--gap) * 1.5);
+}
+.main-content h1 {
+  margin-bottom: calc(var(--gap) * 1.5);
+  font-size: 1.8rem;
+  color: var(--color-primary);
+}
+
+/* ======================================
+   KPI Cards
+   ====================================== */
+.cards-grid {
+  display: grid;
+  gap: var(--gap);
+  margin-bottom: calc(var(--gap)*2);
+}
+.cards-grid:not(.two-columns) {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+.cards-grid.two-columns {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+.card {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  padding: var(--gap);
+  box-shadow: var(--shadow-light);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hoverable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.card-small {
+  text-align: center;
+}
+.card-small h3 {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  margin-bottom: 0.5rem;
+}
+.stat {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.stat-blue  { color: var(--color-primary); }
+.stat-green { color: var(--color-success); }
+.stat-teal  { color: #17c0eb; }
+.stat-red   { color: var(--color-danger); }
+
+/* ======================================
+   List Stats
+   ====================================== */
+.list-stats {
+  list-style: none;
+}
+.list-stats li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+.list-stats strong {
+  color: var(--color-text);
+}
+
+/* ======================================
+   Packages Section: Table & Form Layout
+   ====================================== */
+.packages-section {
+  display: flex;
+  gap: var(--gap);
+  margin-top: var(--gap);
+}
+.packages-table, .add-form-container {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-light);
+  padding: var(--gap);
+}
+
+/* --- Table adjustments --- */
+.packages-table {
+  width: 60%;
+  border-collapse: collapse;
+}
+.packages-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.6rem;
+  text-align: left;
+  font-weight: 600;
+}
+.packages-table tbody tr {
+  background: var(--color-bg);
+}
+.packages-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+.packages-table td {
+  padding: 0.4rem 0.5rem;    /* slimmer rows */
+  color: var(--color-text);
+}
+.packages-table td.centered {
+  text-align: center;
+}
+
+/* ======================================
+   Toggle Switch (pill style)
+   ====================================== */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 22px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .3s;
+  border-radius: var(--radius);
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: var(--color-success);
+}
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* ======================================
+   Add Form Styling
+   ====================================== */
+.add-form-container {
+  width: 30%;             /* narrower form */
+  max-width: 300px;
+}
+.add-form-container h2 {
+  margin-bottom: var(--gap);
+  font-size: 1.4rem;
+  color: var(--color-primary);
+}
+.add-form .form-group {
+  margin-bottom: var(--gap);
+}
+.add-form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+.add-form input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: border-color .2s;
+}
+.add-form input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+.btn-add {
+  background: var(--color-success);
+  color: #fff;
+}
+.btn-add:hover {
+  background: #1e8449;
+}
+
+/* ======================================
+   Vouchers Section Styling
+   ====================================== */
+.voucher-section {
+  margin-top: var(--gap);
+}
+
+.voucher-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--gap);
+  background: var(--color-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-light);
+  overflow: hidden;
+}
+
+.voucher-table thead {
+  background: var(--color-primary);
+  color: white;
+  text-align: left;
+}
+
+.voucher-table th, .voucher-table td {
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+}
+
+.voucher-table tbody tr:nth-child(even) {
+  background-color: #f9fafa;
+}
+
+.voucher-table tbody tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* ======================================
+/* ======================================
+   Voucher Modal Styling
+   ====================================== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--color-card);
+  padding: 2rem;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow-light);
+  position: relative;
+}
+
+.modal h2 {
+  margin-bottom: var(--gap);
+  color: var(--color-primary);
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 1.2rem;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+/* ======================================
+   Voucher Section Styling
+   ====================================== */
+
+/* Modal backdrop and positioning */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.open {
+  display: flex;
+}
+
+/* Modal content box */
+.modal-content {
+  background: var(--color-card);
+  padding: 2rem;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow-light);
+  position: relative;
+}
+
+.modal h2 {
+  margin-bottom: var(--gap);
+  color: var(--color-primary);
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 1.2rem;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+/* ======================================
+   Voucher Form Inputs
+   ====================================== */
+.voucher-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.voucher-form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+
+.voucher-form input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: var(--radius);
+  font-size: 1rem;
+}
+
+.voucher-form input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+/* ======================================
+   Generate Voucher Buttons
+   ====================================== */
+/* Define your brand colors */
+
+.btn-add {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.1s ease;
+  text-align: center;
+}
+
+.btn-add:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-add:active {
+  transform: translateY(0);
+}
+/* ======================================
+   Settings Section Styling
+   ====================================== */
+.settings-form {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--color-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-light);
+}
+
+.settings-form section {
+  margin-bottom: 1.5rem;
+}
+
+.settings-form h2 {
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 0.25rem;
+}
+
+.settings-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.settings-form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+
+.settings-form input,
+.settings-form select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: var(--radius);
+  font-size: 1rem;
+}
+
+.settings-form input:focus,
+.settings-form select:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.btn-save,
+.btn-cancel {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.1s ease;
+}
+
+.btn-save {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn-save:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-cancel {
+  background: #ccc;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background: #bbb;
+  transform: translateY(-1px);
+}
+/* ======================================
+   Responsive Adjustments
+   ====================================== */
+@media (max-width: 900px) {
+  .packages-section {
+    flex-direction: column;
+  }
+  .packages-table,
+  .add-form-container {
+    width: 100%;
+  }
+}

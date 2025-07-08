@@ -1,0 +1,375 @@
+/* ---------- CSS Variables & Fonts ---------- */
+:root {
+  --bg-start: #111;
+  --bg-end: #1a1a1a;
+  --accent: #11ec2e;
+  --text: #e0e0e0;
+  --card-bg: #1e1e1e;
+  --card-alt: #272727;
+  --transition: transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.3s;
+}
+
+/* ---------- Base & Background ---------- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
+  color: var(--text);
+  line-height: 1.6;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAA...') repeat;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+/* ---------- Hero Banner (reduced height) ---------- */
+.hero {
+  width: 100%;
+  height: 140px;   /* reduced from 200px */
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  position: relative;
+  margin-bottom: 2rem;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.logo {
+  width: 70px;
+  margin-bottom: 0.5rem;
+}
+.hero h1 {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;             /* slightly smaller */
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+/* ---------- Container & Cards ---------- */
+.container {
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  padding: 0 1rem;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+  margin-bottom: 2rem;
+}
+
+/* ---------- Illustration & Subheading ---------- */
+.illustration {
+  display: block;
+  width: 60px;
+  margin: 0 auto 1rem;
+}
+.subheading {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+/* ---------- Packages Grid ---------- */
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px,1fr)); /* updated min width */
+  gap: 1rem;
+  justify-items: center;
+}
+@media (max-width: 600px) {
+  .packages-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 400px) {
+  .packages-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Updated Circle Styles ---------- */
+.pkg-circle {
+  position: relative;
+  width: 110px;    /* increased from 100px */
+  height: 110px;   /* increased from 100px */
+  border: 3px solid;
+  border-radius: 50%;
+  background: var(--card-alt);
+  transition: var(--transition);
+  cursor: pointer;
+}
+.pkg-circle:hover,
+.pkg-circle:focus-within {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px var(--accent);
+}
+.pkg-circle.selected {
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 var(--accent); }
+  50%     { box-shadow: 0 0 12px var(--accent); }
+}
+.pkg-circle.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+.pkg-circle input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+.circle-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;        /* breathing room */
+  text-align: center;
+}
+.pkg-label {
+  font-size: 0.65rem;      /* slightly smaller */
+  line-height: 1.2;
+  color: var(--accent);
+  font-weight: 500;
+  word-wrap: break-word;   /* allow wrapping */
+  max-width: 90%;          /* fit inside circle */
+}
+.pkg-price {
+  font-size: 0.85rem;      /* slightly smaller */
+  line-height: 1.2;
+  color: #ff5252;
+  font-weight: 600;
+}
+.pkg-circle.selected .pkg-label,
+.pkg-circle.selected .pkg-price {
+  color: #fff;
+}
+
+/* ---------- Purchase Details (Sticky on Mobile) ---------- */
+.purchase-details {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s, max-height 0.3s;
+  text-align: center;
+}
+.purchase-details.visible {
+  opacity: 1;
+  max-height: 200px;
+  margin-top: 1.5rem;
+}
+@media (max-width: 600px) {
+  .purchase-details.visible {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    padding: 1rem;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 500;
+    margin: 0;
+  }
+}
+.phone-input input {
+  padding: 0.6rem;
+  width: 220px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.pay-btn {
+  position: relative;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  background: var(--accent);
+  color: #121212;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+.pay-btn.loading::after {
+  content: "";
+  display: inline-block;
+  margin-left: 0.5rem;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #121212;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Reconnect & Voucher Cards ---------- */
+.reconnect-card,
+.voucher-card {
+  background: var(--card-alt);
+  border: 1px solid #333;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+.reconnect-card h2,
+.voucher-card h2 {
+  display: flex;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.reconnect-instructions,
+.voucher-instructions {
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+.reconnect-card form,
+.voucher-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.reconnect-card input,
+.voucher-card input {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+/* Reconnect & Voucher Buttons: custom gradients */
+.reconnect-card button {
+  padding: 0.75rem;
+  font-size: 1rem;
+  background: linear-gradient(to right, #d14641, #e09f36);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.voucher-card button {
+  padding: 0.75rem;
+  font-size: 1rem;
+  background: linear-gradient(to right, #8e24aa, #d81b60);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.reconnect-card button:hover,
+.voucher-card button:hover {
+  box-shadow: 0 0 8px rgba(255,255,255,0.3);
+}
+
+
+/* ---------- Admin Login ---------- */
+.admin-login form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.admin-login input {
+  padding: 0.6rem;
+  border: none;
+  border-radius: 4px;
+}
+.admin-login button {
+  background: #42a5f5;
+  color: #fff;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.admin-login button:hover {
+  box-shadow: 0 0 8px #42a5f5;
+}
+
+/* ---------- Info-Tooltips & Errors ---------- */
+.error-msg {
+  display: none;
+  font-size: 0.8rem;
+  color: #ef9a9a;
+  margin-top: 0.25rem;
+}
+.info-icon {
+  margin-left: 0.5rem;
+  cursor: help;
+  color: var(--accent);
+  position: relative;
+  font-weight: bold;
+}
+.tooltip {
+  position: absolute;
+  top: -0.5rem;
+  left: 1.5rem;
+  background: #333;
+  color: #fff;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  z-index: 200;
+}
+
+/* ---------- Toasts ---------- */
+#toasts {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1000;
+}
+.toast {
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  color: #121212;
+  font-weight: 500;
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+.toast.success {
+  background: #a5d6a7;
+}
+.toast.error {
+  background: #ef9a9a;
+}
+.toast.hide {
+  opacity: 0;
+}

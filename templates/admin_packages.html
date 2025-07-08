@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Manage Packages — Lavish WiFi{% endblock %}
+{% set active = 'packages' %}
+
+{% block content %}
+  <h1>Manage Packages</h1>
+
+  <div class="packages-section">
+    <!-- Packages Table -->
+    <table class="packages-table">
+      <thead>
+        <tr>
+          <th>Label</th>
+          <th>Price (KSH)</th>
+          <th>Status</th>  <!-- renamed -->
+        </tr>
+      </thead>
+      <tbody>
+        {% for pkg in packages %}
+        <tr>
+          <td>{{ pkg.label }}</td>
+          <td>{{ pkg.price }}</td>
+          <td class="centered">
+            <!-- same pill-style switch as before -->
+            <label class="switch">
+              <input type="checkbox" name="enabled_{{ pkg.id }}" {% if pkg.enabled|default(true) %}checked{% endif %}>
+              <span class="slider round"></span>
+            </label>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Add Package Form (side by side) -->
+    <div class="add-form-container">
+      <h2>Add New Package</h2>
+      <form method="post" class="add-form">
+        <input type="hidden" name="action" value="add">
+        <div class="form-group">
+          <label for="new_label">Package Label</label>
+          <input type="text" id="new_label" name="new_label" required>
+        </div>
+        <div class="form-group">
+          <label for="new_price">Price (KSH)</label>
+          <input type="number" id="new_price" name="new_price" required>
+        </div>
+        <button type="submit" class="btn btn-add">Add Package</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lavish WiFi Login</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/image.png') }}" type="image/png">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+<body>
+  <!-- Toast container -->
+  <div id="toasts"></div>
+
+  <!-- Hidden flash messages for JS -->
+  <ul id="flashes" style="display:none;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, msg in messages %}
+        <li data-category="{{ category }}">{{ msg }}</li>
+      {% endfor %}
+    {% endwith %}
+  </ul>
+
+  <!-- Hero Banner -->
+  <div class="hero">
+    <div class="hero-overlay">
+      <img src="{{ url_for('static', filename='images/image.png') }}" alt="Lavish WiFi Logo" class="logo">
+      <h1>Lavish WiFi Login</h1>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- Purchase Section Card -->
+    <section class="card purchase-card">
+      <div class="instructions">
+        <p><strong>How To Purchase:</strong></p>
+        <ol>
+          <li>Tap on your preferred package.</li>
+          <li>Enter your phone number.</li>
+          <li>Click “PAY NOW”.</li>
+          <li>Enter your M-Pesa PIN; wait 30 sec for authentication.</li>
+        </ol>
+        <p class="customer-care">(Customer Care: 0742174391)</p>
+      </div>
+
+      <p class="subheading">Tap one circle below to choose a package</p>
+
+      <form id="purchase-form" method="POST" class="purchase-form" novalidate>
+        <div class="packages-grid">
+          {% for p in packages %}
+          <label class="pkg-circle" style="border-color: {{ p.color }};">
+            <input type="radio" name="package" value="{{ p.id }}" required>
+            <div class="circle-content">
+              <span class="pkg-label">{{ p.label }}</span>
+              <span class="pkg-price">KSH {{ p.price }}/-</span>
+            </div>
+          </label>
+          {% endfor %}
+        </div>
+
+        <div class="purchase-details" id="purchase-details">
+          <div class="phone-input">
+            <input type="tel"
+                   name="phone"
+                   id="phone"
+                   placeholder="Enter phone number"
+                   pattern="^07[0-9]{8}$"
+                   required>
+            <span class="error-msg" id="phone-error">Use format 07XXXXXXXX</span>
+          </div>
+          <button type="submit" class="pay-btn">PAY NOW</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Reconnect Section Card -->
+    <section class="card reconnect-card">
+      <h2>
+        Reconnect account
+        <span class="info-icon" data-tooltip="Use this if you've previously paid but lost connection.">(i)</span>
+      </h2>
+      <p class="reconnect-instructions">
+        Enter M-Pesa code below from the payment you made (e.g. QAH9QWWZRR)
+      </p>
+      <form action="{{ url_for('reconnect') }}" method="POST" novalidate>
+        <input type="text"
+               name="mpesa_code"
+               id="mpesa_code"
+               placeholder="Enter M-Pesa Code"
+               pattern="^[A-Za-z0-9]{10}$"
+               required>
+        <span class="error-msg" id="code-error">10-character code</span>
+        <button type="submit">Reconnect</button>
+      </form>
+    </section>
+
+    <!-- Voucher Section Card -->
+    <section class="card voucher-card">
+      <h2>
+        Voucher recharge
+        <span class="info-icon" data-tooltip="Get a voucher from admin if payment failed.">(i)</span>
+      </h2>
+      <p class="voucher-instructions">
+        (Call admin for voucher recharge in case your payment is not successful)
+      </p>
+      <form action="{{ url_for('voucher') }}" method="POST">
+        <input type="text" name="voucher_code" placeholder="Enter voucher code" required>
+        <button type="submit">Activate voucher</button>
+      </form>
+    </section>
+
+    <!-- Admin Login Section Card -->
+    <section class="card admin-login">
+      <h2>Admin Login</h2>
+      <form action="{{ url_for('admin_login') }}" method="POST">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+    </section>
+
+  </div>
+</body>
+</html>
